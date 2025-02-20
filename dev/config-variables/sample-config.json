@@ -1,0 +1,5 @@
+{
+	"`CONFIG_CONN_NAME`": "projects/service-comms-devops-dev/locations/europe-west2/connections/pubsub",
+	"`CONFIG_TOPIC`": "projects/service-comms-devops-dev/topics/mytopic",
+	"`CONFIG_URL`": "https://httpbin.org/get"
+}
