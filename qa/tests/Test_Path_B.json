@@ -1,0 +1,112 @@
+{
+	"displayName": "Test_Path_B",
+	"name": "projects/637036429979/locations/europe-west2/integrations/sample/versions/4058ca29-cad5-4f35-b333-32909b76b275/testCases/02bbcf2c-589d-4f8f-aae7-3a45a3ae54cf",
+	"testInputParameters": [
+		{
+			"dataType": "STRING_VALUE",
+			"defaultValue": {
+				"stringValue": "jenn"
+			},
+			"key": "user"
+		},
+		{
+			"dataType": "STRING_VALUE",
+			"defaultValue": {
+				"stringValue": "B"
+			},
+			"key": "path"
+		}
+	],
+	"testTaskConfigs": [
+		{
+			"mockConfig": {
+				"mockStrategy": "NO_MOCK_STRATEGY"
+			},
+			"task": "GenericRestV2Task",
+			"taskConfig": {
+				"displayName": "Call REST Endpoint",
+				"nextTasks": [
+					{
+						"taskId": "3"
+					}
+				],
+				"task": "GenericRestV2Task",
+				"taskExecutionStrategy": "WHEN_ALL_SUCCEED",
+				"taskId": "1"
+			},
+			"taskNumber": "1"
+		},
+		{
+			"mockConfig": {
+				"mockStrategy": "NO_MOCK_STRATEGY"
+			},
+			"task": "GenericConnectorTask",
+			"taskConfig": {
+				"displayName": "Publish message",
+				"task": "GenericConnectorTask",
+				"taskExecutionStrategy": "WHEN_ALL_SUCCEED",
+				"taskId": "2"
+			},
+			"taskNumber": "2"
+		},
+		{
+			"mockConfig": {
+				"mockStrategy": "NO_MOCK_STRATEGY"
+			},
+			"task": "FieldMappingTask",
+			"taskConfig": {
+				"displayName": "Data Mapping",
+				"nextTasks": [
+					{
+						"taskId": "2"
+					}
+				],
+				"task": "FieldMappingTask",
+				"taskExecutionStrategy": "WHEN_ALL_SUCCEED",
+				"taskId": "3"
+			},
+			"taskNumber": "3"
+		},
+		{
+			"assertions": [
+				{
+					"assertionStrategy": "ASSERT_CONDITION",
+					"condition": "$path$ = $userOutput$"
+				}
+			],
+			"mockConfig": {
+				"mockStrategy": "NO_MOCK_STRATEGY"
+			},
+			"task": "FieldMappingTask",
+			"taskConfig": {
+				"displayName": "Data Mapping 1",
+				"task": "FieldMappingTask",
+				"taskExecutionStrategy": "WHEN_ALL_SUCCEED",
+				"taskId": "4"
+			},
+			"taskNumber": "4"
+		}
+	],
+	"triggerConfig": {
+		"label": "API Trigger",
+		"properties": {
+			"Trigger name": "sample_API_1"
+		},
+		"startTasks": [
+			{
+				"condition": "$path$=\"A\"",
+				"displayName": "path=A",
+				"taskId": "1"
+			},
+			{
+				"condition": "$path$=\"B\"",
+				"displayName": "path B",
+				"taskId": "4"
+			}
+		],
+		"triggerId": "api_trigger/sample_API_1",
+		"triggerNumber": "1",
+		"triggerType": "API"
+	},
+	"triggerId": "api_trigger/sample_API_1"
+}
